@@ -1,0 +1,2153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CravePotato - Real Potatoes. Real Flavor. Real Opportunity.</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'potato-orange': '#FFA62B',
+                        'potato-yellow': '#FFD966',
+                        'potato-cream': '#FFF5E1',
+                        'potato-brown': '#333333',
+                    },
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                        'nunito': ['Nunito', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-slow': 'pulse 3s infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --orange: #FFA62B;
+            --yellow: #FFD966;
+            --cream: #FFF5E1;
+            --dark-brown: #333333;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--cream);
+            color: var(--dark-brown);
+        }
+
+        .font-nunito {
+            font-family: 'Nunito', sans-serif;
+        }
+
+        .promo-slide {
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-100%); }
+            to { transform: translateY(0); }
+        }
+
+        .chat-message {
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-open {
+            overflow: hidden;
+        }
+
+        .cart-panel {
+            transition: transform 0.3s ease-out;
+        }
+
+        .order-tracking-bar {
+            transition: width 0.5s ease-in-out;
+        }
+        
+        .logo-container {
+            transition: transform 0.3s ease;
+        }
+        
+        .logo-container:hover {
+            transform: scale(1.05);
+        }
+
+        .quiz-step {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .quiz-step.active {
+            display: block;
+        }
+
+        .quiz-option {
+            transition: all 0.3s ease;
+        }
+
+        .quiz-option:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .quiz-option.selected {
+            border-color: var(--orange);
+            background-color: rgba(255, 166, 43, 0.1);
+        }
+
+        .progress-bar {
+            transition: width 0.5s ease;
+        }
+    </style>
+</head>
+<body class="bg-potato-cream text-potato-brown font-poppins">
+    <!-- Promo Banner -->
+    <div id="promoBanner" class="bg-potato-orange text-white py-2 px-4 fixed top-0 left-0 right-0 z-50 promo-slide">
+        <div class="container mx-auto flex justify-between items-center">
+            <p id="promoText" class="text-center flex-1">🔥 Get your Spuds fix now — ₱119 only!</p>
+            <button id="closePromo" class="text-white hover:text-potato-yellow">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header class="bg-white shadow-md sticky top-0 z-40 mt-8">
+        <div class="container mx-auto px-4">
+            <nav class="flex justify-between items-center py-4">
+                <div class="flex items-center space-x-3">
+                    <!-- Logo Placeholder - Replace the src with your actual logo -->
+                    <div class="logo-container">
+                        <img src="logo.jpg" 
+                             alt="logo.jpg" 
+                             class="w-10 h-10 rounded-full object-cover border border-potato-brown">
+                    </div>
+                    <span class="font-nunito font-bold text-xl">CravePotato</span>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex space-x-6">
+                    <a href="#home" class="hover:text-potato-orange transition-colors">Home</a>
+                    <a href="#menu" class="hover:text-potato-orange transition-colors">Menu</a>
+                    <a href="#about" class="hover:text-potato-orange transition-colors">About</a>
+                    <a href="#reviews" class="hover:text-potato-orange transition-colors">Reviews</a>
+                    <a href="#quiz" class="hover:text-potato-orange transition-colors">Find Your Spud</a>
+                    <a href="#order" class="hover:text-potato-orange transition-colors">Order Now</a>
+                    <a href="#contact" class="hover:text-potato-orange transition-colors">Contact</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button id="notificationBtn" class="text-potato-brown hover:text-potato-orange transition-colors">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg z-50 p-4">
+                            <div class="space-y-2">
+                                <div class="border-b pb-2">
+                                    <p class="text-sm">🔥 Get your Spuds fix now — ₱119 only!</p>
+                                </div>
+                                <div class="border-b pb-2">
+                                    <p class="text-sm">🥔 Buy 2 Potato Wedges, get 1 dip FREE!</p>
+                                </div>
+                                <div class="border-b pb-2">
+                                    <p class="text-sm">🍅 New Lasagna-Style Spud available now!</p>
+                                </div>
+                                <div>
+                                    <p class="text-sm">🎓 Student Discount: 10% off with valid ID!</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <button id="cartBtn" class="text-potato-brown hover:text-potato-orange transition-colors">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="cartCount" class="absolute -top-2 -right-2 bg-potato-orange text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button id="mobileMenuBtn" class="md:hidden text-potato-brown">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </nav>
+            
+            <!-- Mobile Navigation -->
+            <div id="mobileMenu" class="hidden md:hidden py-4 border-t">
+                <div class="flex flex-col space-y-3">
+                    <a href="#home" class="hover:text-potato-orange transition-colors">Home</a>
+                    <a href="#menu" class="hover:text-potato-orange transition-colors">Menu</a>
+                    <a href="#about" class="hover:text-potato-orange transition-colors">About</a>
+                    <a href="#reviews" class="hover:text-potato-orange transition-colors">Reviews</a>
+                    <a href="#quiz" class="hover:text-potato-orange transition-colors">Find Your Spud</a>
+                    <a href="#order" class="hover:text-potato-orange transition-colors">Order Now</a>
+                    <a href="#contact" class="hover:text-potato-orange transition-colors">Contact</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="py-16 md:py-24 bg-cover bg-center" style="background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('background.jpg');">
+        <div class="container mx-auto px-4 text-center text-white">
+            <h1 class="font-nunito text-4xl md:text-6xl font-bold mb-4">Real Potatoes. Real Flavor. Real Opportunity.</h1>
+            <p class="text-xl mb-8 max-w-2xl mx-auto">Fresh, affordable potato snacks made with care and creativity by student entrepreneurs.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="#order" class="bg-potato-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-full transition-colors">Order Now</a>
+                <a href="#menu" class="bg-transparent border-2 border-white hover:bg-white hover:text-potato-brown text-white font-bold py-3 px-6 rounded-full transition-colors">View Menu</a>
+                <a href="#quiz" class="bg-potato-yellow hover:bg-yellow-500 text-potato-brown font-bold py-3 px-6 rounded-full transition-colors">Try Our Fun Quiz!</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Section -->
+    <section id="quiz" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="font-nunito text-3xl font-bold text-center mb-4">Find Your Perfect Spud!</h2>
+            <p class="text-center text-lg mb-12 max-w-2xl mx-auto">Take our fun quiz to discover which CravePotato creation matches your personality and cravings!</p>
+            
+            <div class="max-w-3xl mx-auto bg-potato-cream rounded-xl shadow-lg p-6 md:p-8">
+                <!-- Progress Bar -->
+                <div class="mb-8">
+                    <div class="flex justify-between text-sm mb-2">
+                        <span>Progress</span>
+                        <span id="progressText">0/5</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div id="progressBar" class="bg-potato-orange h-2 rounded-full progress-bar" style="width: 0%"></div>
+                    </div>
+                </div>
+                
+                <!-- Quiz Container -->
+                <div id="quizContainer">
+                    <!-- Welcome Step -->
+                    <div class="quiz-step active" id="step-welcome">
+                        <div class="text-center py-8">
+                            <div class="text-6xl mb-4">🥔💛</div>
+                            <h3 class="font-nunito text-2xl font-bold mb-4">Hey there, Spud Lover!</h3>
+                            <p class="text-lg mb-8 max-w-md mx-auto">Let's find the perfect potato snack for your mood today. Ready to start?</p>
+                            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                                <button class="start-quiz bg-potato-orange hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-full transition-colors">
+                                    Let's Go!
+                                </button>
+                                <button class="skip-quiz bg-gray-200 hover:bg-gray-300 text-potato-brown font-bold py-3 px-8 rounded-full transition-colors">
+                                    Maybe Later
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 1 -->
+                    <div class="quiz-step" id="step-1">
+                        <h3 class="font-nunito text-xl font-bold mb-6 text-center">How are you feeling right now?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="chill">
+                                <div class="text-3xl mb-2">😌</div>
+                                <h4 class="font-bold mb-1">Chill and relaxed</h4>
+                                <p class="text-sm text-gray-600">Just looking for a tasty snack</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="hungry">
+                                <div class="text-3xl mb-2">🔥</div>
+                                <h4 class="font-bold mb-1">Hungry and craving flavor</h4>
+                                <p class="text-sm text-gray-600">Ready for something substantial</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="focused">
+                                <div class="text-3xl mb-2">🤓</div>
+                                <h4 class="font-bold mb-1">Focused and studying</h4>
+                                <p class="text-sm text-gray-600">Need brain food that fuels productivity</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="treat">
+                                <div class="text-3xl mb-2">🎉</div>
+                                <h4 class="font-bold mb-1">Ready to treat myself</h4>
+                                <p class="text-sm text-gray-600">I deserve something special today</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-8">
+                            <button class="quiz-prev bg-gray-200 hover:bg-gray-300 text-potato-brown font-bold py-2 px-6 rounded-lg transition-colors opacity-0 cursor-default">
+                                Previous
+                            </button>
+                            <button class="quiz-next bg-potato-orange hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-colors" disabled>
+                                Next Question
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 2 -->
+                    <div class="quiz-step" id="step-2">
+                        <h3 class="font-nunito text-xl font-bold mb-6 text-center">What kind of flavor do you want today?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="cheesy">
+                                <div class="text-3xl mb-2">🧀</div>
+                                <h4 class="font-bold mb-1">Super cheesy!</h4>
+                                <p class="text-sm text-gray-600">The more cheese, the better</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="savory">
+                                <div class="text-3xl mb-2">🥓</div>
+                                <h4 class="font-bold mb-1">Savory and meaty</h4>
+                                <p class="text-sm text-gray-600">Bacon, herbs, and rich flavors</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="creamy">
+                                <div class="text-3xl mb-2">🥬</div>
+                                <h4 class="font-bold mb-1">Creamy and veggie-rich</h4>
+                                <p class="text-sm text-gray-600">Smooth textures with fresh elements</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="saucy">
+                                <div class="text-3xl mb-2">🍅</div>
+                                <h4 class="font-bold mb-1">Saucy and hearty</h4>
+                                <p class="text-sm text-gray-600">Comfort food with rich sauces</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-8">
+                            <button class="quiz-prev bg-gray-200 hover:bg-gray-300 text-potato-brown font-bold py-2 px-6 rounded-lg transition-colors">
+                                Previous
+                            </button>
+                            <button class="quiz-next bg-potato-orange hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-colors" disabled>
+                                Next Question
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 3 -->
+                    <div class="quiz-step" id="step-3">
+                        <h3 class="font-nunito text-xl font-bold mb-6 text-center">How hungry are you?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="snack">
+                                <div class="text-3xl mb-2">😋</div>
+                                <h4 class="font-bold mb-1">Just a snack</h4>
+                                <p class="text-sm text-gray-600">Something light to munch on</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="meal">
+                                <div class="text-3xl mb-2">🍽️</div>
+                                <h4 class="font-bold mb-1">Full meal please</h4>
+                                <p class="text-sm text-gray-600">I want something satisfying</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="light">
+                                <div class="text-3xl mb-2">🤏</div>
+                                <h4 class="font-bold mb-1">Something light</h4>
+                                <p class="text-sm text-gray-600">Not too heavy, just enough</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-8">
+                            <button class="quiz-prev bg-gray-200 hover:bg-gray-300 text-potato-brown font-bold py-2 px-6 rounded-lg transition-colors">
+                                Previous
+                            </button>
+                            <button class="quiz-next bg-potato-orange hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-colors" disabled>
+                                Next Question
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 4 -->
+                    <div class="quiz-step" id="step-4">
+                        <h3 class="font-nunito text-xl font-bold mb-6 text-center">Do you like extra toppings?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="extra">
+                                <div class="text-3xl mb-2">✅</div>
+                                <h4 class="font-bold mb-1">Always! The more the better</h4>
+                                <p class="text-sm text-gray-600">Load it up with all the good stuff</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="simple">
+                                <div class="text-3xl mb-2">🙅‍♀️</div>
+                                <h4 class="font-bold mb-1">Keep it simple</h4>
+                                <p class="text-sm text-gray-600">Just the basics, please</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="maybe">
+                                <div class="text-3xl mb-2">🤔</div>
+                                <h4 class="font-bold mb-1">Maybe a little</h4>
+                                <p class="text-sm text-gray-600">A few toppings would be nice</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-8">
+                            <button class="quiz-prev bg-gray-200 hover:bg-gray-300 text-potato-brown font-bold py-2 px-6 rounded-lg transition-colors">
+                                Previous
+                            </button>
+                            <button class="quiz-next bg-potato-orange hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-colors" disabled>
+                                Next Question
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Question 5 -->
+                    <div class="quiz-step" id="step-5">
+                        <h3 class="font-nunito text-xl font-bold mb-6 text-center">Where will you enjoy your spud?</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="school">
+                                <div class="text-3xl mb-2">🏫</div>
+                                <h4 class="font-bold mb-1">At school</h4>
+                                <p class="text-sm text-gray-600">Campus munchies between classes</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="home">
+                                <div class="text-3xl mb-2">🏠</div>
+                                <h4 class="font-bold mb-1">At home</h4>
+                                <p class="text-sm text-gray-600">Comfort food in my own space</p>
+                            </div>
+                            <div class="quiz-option bg-white p-4 rounded-lg border-2 border-transparent cursor-pointer shadow-md" data-value="go">
+                                <div class="text-3xl mb-2">🚶</div>
+                                <h4 class="font-bold mb-1">On the go</h4>
+                                <p class="text-sm text-gray-600">Need something portable</p>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mt-8">
+                            <button class="quiz-prev bg-gray-200 hover:bg-gray-300 text-potato-brown font-bold py-2 px-6 rounded-lg transition-colors">
+                                Previous
+                            </button>
+                            <button class="quiz-next bg-potato-orange hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-colors" disabled>
+                                Get My Result!
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Result Step -->
+                    <div class="quiz-step" id="step-result">
+                        <div class="text-center py-6">
+                            <div id="resultIcon" class="text-6xl mb-4">🥔</div>
+                            <h3 id="resultTitle" class="font-nunito text-2xl font-bold mb-4">Your Perfect Spud Match!</h3>
+                            <p id="resultDescription" class="text-lg mb-6 max-w-md mx-auto">Based on your preferences, we think you'll love our Cheesy Bacon Spud!</p>
+                            
+                            <div id="resultCard" class="bg-white rounded-xl shadow-md overflow-hidden max-w-md mx-auto mb-6">
+                                <img id="resultImage" src="https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Recommended Spud" class="w-full h-48 object-cover">
+                                <div class="p-4">
+                                    <h4 id="resultProduct" class="font-nunito text-xl font-bold mb-2">Cheesy Bacon Spud</h4>
+                                    <p id="resultDetails" class="text-gray-600 mb-4">Jacket potato with cheesy bacon filling - melty cheese, crispy bacon, and everything you crave.</p>
+                                    <div class="flex justify-between items-center">
+                                        <span id="resultPrice" class="font-bold text-potato-orange text-lg">₱119</span>
+                                        <button id="orderResult" class="bg-potato-orange hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                                            Order Now
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+                                <button id="shareResult" class="bg-potato-yellow hover:bg-yellow-500 text-potato-brown font-bold py-2 px-6 rounded-lg transition-colors">
+                                    <i class="fas fa-share-alt mr-2"></i>Share Your Result
+                                </button>
+                                <button id="retakeQuiz" class="bg-gray-200 hover:bg-gray-300 text-potato-brown font-bold py-2 px-6 rounded-lg transition-colors">
+                                    <i class="fas fa-redo mr-2"></i>Retake Quiz
+                                </button>
+                            </div>
+                            
+                            <a href="#menu" class="text-potato-orange hover:text-orange-600 font-medium">
+                                Or explore our full menu →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="font-nunito text-3xl font-bold text-center mb-12">Our Menu</h2>
+            
+            <div class="flex flex-wrap justify-center gap-2 mb-8">
+                <button class="filter-btn bg-white text-potato-brown px-4 py-2 rounded-full shadow-md hover:bg-potato-orange hover:text-white transition-colors active" data-filter="all">All</button>
+                <button class="filter-btn bg-white text-potato-brown px-4 py-2 rounded-full shadow-md hover:bg-potato-orange hover:text-white transition-colors" data-filter="wedges">Potato Wedges</button>
+                <button class="filter-btn bg-white text-potato-brown px-4 py-2 rounded-full shadow-md hover:bg-potato-orange hover:text-white transition-colors" data-filter="spuds">Spuds</button>
+                <button class="filter-btn bg-white text-potato-brown px-4 py-2 rounded-full shadow-md hover:bg-potato-orange hover:text-white transition-colors" data-filter="dips">Dips</button>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="menuGrid">
+                <!-- Menu items will be populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="font-nunito text-3xl font-bold text-center mb-12">Our Story</h2>
+            
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/2">
+                   <img src="about.pic.jpg" alt="about.pic.jpg" style="width:700px; height:500px;" class="rounded-lg shadow-lg w-full">
+                </div>
+                
+                <div class="md:w-1/2">
+                    <p class="mb-4">CravePotato was founded by <strong>Charyze Semilla</strong> and <strong>Ariane Caseserano</strong>, two passionate student entrepreneurs with a love for delicious, affordable food. What started as a home-based business has grown into a beloved snack brand among students and food enthusiasts.</p>
+                    
+                    <h3 class="font-nunito text-xl font-bold text-potato-orange mt-6 mb-2">Our Mission</h3>
+                    <p class="mb-4">To serve fresh and flavorful potato dishes made with care and creativity at a student-friendly price.</p>
+                    
+                    <h3 class="font-nunito text-xl font-bold text-potato-orange mt-6 mb-2">Our Vision</h3>
+                    <p>To be a go-to student snack brand known for authentic potato dishes and quality flavor.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section -->
+    <section id="reviews" class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="font-nunito text-3xl font-bold text-center mb-12">Customer Reviews</h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <p class="italic mb-4">"The Cheesy Bacon Spud is a must-try — crispy, creamy, and affordable!"</p>
+                        <p class="font-bold text-potato-orange">– Ms. Aricen Caseserano</p>
+                        <div class="flex text-potato-yellow mt-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <p class="italic mb-4">"The Cheesey Bacon Spinach Spud is creamy and well-balanced, but the Lasagna-Style Spud is my favorite because of its rich, authentic flavor!"</p>
+                        <p class="font-bold text-potato-orange">– Ms. Francine Usis</p>
+                        <div class="flex text-potato-yellow mt-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-6 rounded-lg shadow-md">
+                        <p class="italic mb-4">"The Butter Garlic Wedges burst with savory flavor, and the Lasagna-Style Spud impressed me with its unique and creative concept."</p>
+                        <p class="font-bold text-potato-orange">– Mr. Kayeden Policar</p>
+                        <div class="flex text-potato-yellow mt-2">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-empty-alt"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h3 class="font-nunito text-xl font-bold mb-4">Share Your Experience</h3>
+                    <form id="reviewForm">
+                        <div class="mb-4">
+                            <label for="reviewName" class="block mb-2">Your Name</label>
+                            <input type="text" id="reviewName" class="w-full p-3 border border-gray-300 rounded-lg" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="reviewText" class="block mb-2">Your Review</label>
+                            <textarea id="reviewText" rows="4" class="w-full p-3 border border-gray-300 rounded-lg" required></textarea>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block mb-2">Rating</label>
+                            <div class="flex space-x-1" id="starRating">
+                                <i class="far fa-star text-2xl cursor-pointer text-gray-300 hover:text-potato-yellow" data-rating="1"></i>
+                                <i class="far fa-star text-2xl cursor-pointer text-gray-300 hover:text-potato-yellow" data-rating="2"></i>
+                                <i class="far fa-star text-2xl cursor-pointer text-gray-300 hover:text-potato-yellow" data-rating="3"></i>
+                                <i class="far fa-star text-2xl cursor-pointer text-gray-300 hover:text-potato-yellow" data-rating="4"></i>
+                                <i class="far fa-star text-2xl cursor-pointer text-gray-300 hover:text-potato-yellow" data-rating="5"></i>
+                            </div>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-potato-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">Submit Review</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Order Section -->
+    <section id="order" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="font-nunito text-3xl font-bold text-center mb-12">Order Now</h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div class="bg-potato-cream p-6 rounded-lg shadow-md">
+                    <h3 class="font-nunito text-xl font-bold mb-4">Place Your Order</h3>
+                    <form id="orderForm">
+                        <div class="mb-4">
+                            <label for="orderName" class="block mb-2">Full Name</label>
+                            <input type="text" id="orderName" class="w-full p-3 border border-gray-300 rounded-lg" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="orderContact" class="block mb-2">Contact Number</label>
+                            <input type="tel" id="orderContact" class="w-full p-3 border border-gray-300 rounded-lg" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="orderDate" class="block mb-2">Pick-up/Delivery Date</label>
+                            <input type="date" id="orderDate" class="w-full p-3 border border-gray-300 rounded-lg" required>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block mb-2">Preferred Time</label>
+                            <div class="grid grid-cols-2 gap-2">
+                                <label class="flex items-center">
+                                    <input type="radio" name="time" value="Morning" class="mr-2" checked>
+                                    <span>Morning</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="time" value="Lunch" class="mr-2">
+                                    <span>Lunch</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="time" value="After Class" class="mr-2">
+                                    <span>After Class</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="time" value="Evening" class="mr-2">
+                                    <span>Evening</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block mb-2">Delivery Option</label>
+                            <div class="flex space-x-4">
+                                <label class="flex items-center">
+                                    <input type="radio" name="delivery" value="Pick-up" class="mr-2" checked>
+                                    <span>Pick-up</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="delivery" value="Delivery" class="mr-2">
+                                    <span>Delivery</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4 hidden" id="addressField">
+                            <label for="orderAddress" class="block mb-2">Delivery Address</label>
+                            <textarea id="orderAddress" rows="3" class="w-full p-3 border border-gray-300 rounded-lg"></textarea>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label class="block mb-2">Payment Method</label>
+                            <div class="flex items-center bg-yellow-100 p-3 rounded-lg">
+                                <i class="fas fa-money-bill-wave text-potato-orange mr-2"></i>
+                                <span>Cash on Delivery (COD) Only</span>
+                            </div>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="orderNotes" class="block mb-2">Additional Notes</label>
+                            <textarea id="orderNotes" rows="3" class="w-full p-3 border border-gray-300 rounded-lg" placeholder="Any special instructions..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-potato-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors">Place Order</button>
+                    </form>
+                </div>
+                
+                <div class="bg-potato-cream p-6 rounded-lg shadow-md">
+                    <h3 class="font-nunito text-xl font-bold mb-4">Your Order</h3>
+                    <div id="orderSummary" class="mb-4">
+                        <p class="text-center py-4">Your cart is empty</p>
+                    </div>
+                    <div class="border-t pt-4 flex justify-between font-bold text-lg">
+                        <span>Total:</span>
+                        <span id="orderTotal">₱0.00</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16">
+        <div class="container mx-auto px-4">
+            <h2 class="font-nunito text-3xl font-bold text-center mb-12">Contact Us</h2>
+            
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-lg shadow-md">
+                <h3 class="font-nunito text-xl font-bold mb-4">Get in Touch</h3>
+                <p class="mb-6">We'd love to hear from you! Reach out to us through any of the channels below.</p>
+                
+                <div class="space-y-4 mb-6">
+                    <div class="flex items-center">
+                        <i class="fas fa-phone text-potato-orange mr-3"></i>
+                        <span>+63 945 275 1016</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-envelope text-potato-orange mr-3"></i>
+                        <span>cravepotato10@gmail.com</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-map-marker-alt text-potato-orange mr-3"></i>
+                        <span>Naic, Cavite, Philippines</span>
+                    </div>
+                </div>
+                
+                <div class="flex space-x-4">
+                   <!-- Facebook -->
+  <a 
+    href="https://www.facebook.com/profile.php?id=61582405118652&mibextid=wwXIfr&rdid=r3qHs6IT4NfrmThY&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F1GnJQbHwem#" 
+    target="_blank" 
+    class="bg-potato-orange hover:bg-orange-600 text-white p-3 rounded-full transition-colors"
+  >
+    <i class="fab fa-facebook-f"></i>
+  </a>
+
+  <!-- Instagram -->
+  <a 
+    href="https://www.instagram.com/crave.potato?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
+    target="_blank" 
+    class="bg-potato-orange hover:bg-orange-600 text-white p-3 rounded-full transition-colors"
+  >
+    <i class="fab fa-instagram"></i>
+  </a>
+</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-potato-brown text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="font-nunito text-xl font-bold mb-4 text-potato-orange">CravePotato</h3>
+                    <p class="italic text-potato-yellow mb-2">Real Potatoes. Real Flavor. Real Opportunity.</p>
+                    <p>Home-based, student-run business offering fresh, affordable potato snacks.</p>
+                </div>
+                
+                <div>
+                    <h3 class="font-nunito text-xl font-bold mb-4 text-potato-orange">Quick Links</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="hover:text-potato-yellow transition-colors">Home</a></li>
+                        <li><a href="#menu" class="hover:text-potato-yellow transition-colors">Menu</a></li>
+                        <li><a href="#about" class="hover:text-potato-yellow transition-colors">About Us</a></li>
+                        <li><a href="#quiz" class="hover:text-potato-yellow transition-colors">Find Your Spud</a></li>
+                        <li><a href="#order" class="hover:text-potato-yellow transition-colors">Order Now</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-nunito text-xl font-bold mb-4 text-potato-orange">Contact Info</h3>
+                    <ul class="space-y-2">
+                        <li><i class="fas fa-phone mr-2"></i> +63 945 275 1016</li>
+                        <li><i class="fas fa-envelope mr-2"></i> cravepotato10@gmail.com</li>
+                        <li><i class="fas fa-map-marker-alt mr-2"></i> Naic, Cavite, Philippines</li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="font-nunito text-xl font-bold mb-4 text-potato-orange">Newsletter</h3>
+                    <p class="mb-2">Subscribe to get updates on new products and special offers!</p>
+                    <form class="flex" id="newsletterForm">
+                        <input type="email" class="flex-1 p-2 rounded-l-lg text-potato-brown" placeholder="Your email" required>
+                        <button type="submit" class="bg-potato-orange hover:bg-orange-600 p-2 rounded-r-lg transition-colors">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 pt-8 text-center">
+                <p>&copy; 2025 CravePotato. Founded by Charyze Semilla & Ariane Caseserano. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Cart Panel -->
+    <div id="cartPanel" class="fixed top-0 right-0 h-full w-full md:w-96 bg-white shadow-lg z-50 transform translate-x-full cart-panel overflow-y-auto">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="font-nunito text-xl font-bold">Your Cart</h3>
+                <button id="closeCart" class="text-potato-brown hover:text-potato-orange">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="cartItems" class="mb-6">
+                <!-- Cart items will be populated by JavaScript -->
+                <p class="text-center py-4">Your cart is empty</p>
+            </div>
+            
+            <div class="border-t pt-4 mb-6">
+                <div class="flex justify-between font-bold text-lg mb-4">
+                    <span>Total:</span>
+                    <span id="cartTotal">₱0.00</span>
+                </div>
+                
+                <button id="checkoutBtn" class="w-full bg-potato-orange hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed" disabled>
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Customization Modal -->
+    <div id="customizationModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden p-4">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-nunito text-xl font-bold" id="modalTitle">Customize Your Order</h3>
+                    <button id="closeModal" class="text-potato-brown hover:text-potato-orange">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                
+                <div id="modalContent">
+                    <!-- Modal content will be populated by JavaScript -->
+                </div>
+                
+                <div class="flex justify-between items-center mt-6">
+                    <div class="font-bold text-lg">
+                        Total: <span id="modalTotal">₱0.00</span>
+                    </div>
+                    <button id="saveCustomization" class="bg-potato-orange hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Order Confirmation Modal -->
+    <div id="orderConfirmation" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6">
+            <div class="text-center">
+                <i class="fas fa-check-circle text-potato-orange text-5xl mb-4"></i>
+                <h3 class="font-nunito text-2xl font-bold mb-2">Order Successful!</h3>
+                <p id="confirmationMessage" class="mb-6">Thank you for your order. We'll contact you shortly to confirm the details.</p>
+                
+                <div class="mb-6 bg-potato-cream p-4 rounded-lg">
+                    <h4 class="font-bold mb-2">Order Tracking</h4>
+                    <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                        <div id="trackingBar" class="bg-potato-orange h-2 rounded-full order-tracking-bar" style="width: 0%"></div>
+                    </div>
+                    <div class="flex justify-between text-sm">
+                        <span>Received</span>
+                        <span>Preparing</span>
+                        <span>Ready</span>
+                    </div>
+                </div>
+                
+                <button id="closeConfirmation" class="bg-potato-orange hover:bg-orange-600 text-white font-bold py-2 px-6 rounded-lg transition-colors">
+                    Continue Shopping
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SpudBot Chat Assistant -->
+    <div class="fixed bottom-6 right-6 z-40">
+        <button id="chatbotBtn" class="bg-potato-orange hover:bg-orange-600 text-white w-14 h-14 rounded-full shadow-lg flex items-center justify-center transition-colors animate-pulse-slow">
+            <i class="fas fa-comment"></i>
+        </button>
+        
+        <div id="chatbotWindow" class="absolute bottom-16 right-0 w-80 h-96 bg-white rounded-lg shadow-xl hidden flex flex-col">
+            <div class="bg-potato-orange text-white p-4 rounded-t-lg flex justify-between items-center">
+                <h3 class="font-nunito font-bold">SpudBot Assistant 🥔</h3>
+                <button id="closeChatbot" class="text-white hover:text-potato-yellow">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div id="chatbotMessages" class="flex-1 p-4 overflow-y-auto">
+                <div class="chat-message mb-4">
+                    <div class="bg-gray-100 rounded-lg p-3 max-w-[80%]">
+                        <p>Hey there! I'm SpudBot 🥔 — your CravePotato helper! I can help you check our menu, prices, or start your pre-order. What would you like to do?</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap gap-2 mb-4">
+                    <button class="quick-reply bg-potato-yellow hover:bg-yellow-500 text-potato-brown text-sm py-1 px-3 rounded-full transition-colors" data-message="Menu & Prices">
+                        🥔 Menu & Prices
+                    </button>
+                    <button class="quick-reply bg-potato-yellow hover:bg-yellow-500 text-potato-brown text-sm py-1 px-3 rounded-full transition-colors" data-message="Customize My Spud">
+                        🍽️ Customize My Spud
+                    </button>
+                    <button class="quick-reply bg-potato-yellow hover:bg-yellow-500 text-potato-brown text-sm py-1 px-3 rounded-full transition-colors" data-message="How to Pre-Order">
+                        💵 How to Pre-Order
+                    </button>
+                    <button class="quick-reply bg-potato-yellow hover:bg-yellow-500 text-potato-brown text-sm py-1 px-3 rounded-full transition-colors" data-message="Delivery Info">
+                        🚚 Delivery Info
+                    </button>
+                    <button class="quick-reply bg-potato-yellow hover:bg-yellow-500 text-potato-brown text-sm py-1 px-3 rounded-full transition-colors" data-message="Take the Quiz">
+                        🎯 Find My Perfect Spud
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-4 border-t">
+                <div class="flex">
+                    <input type="text" id="chatbotInput" placeholder="Type your message..." class="flex-1 border border-gray-300 rounded-l-lg p-2">
+                    <button id="sendMessage" class="bg-potato-orange hover:bg-orange-600 text-white rounded-r-lg p-2 transition-colors">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay for modals -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <script>
+        // Menu Data
+        const menuItems = [
+            {
+                id: 1,
+                name: "Cheesy Garlic Wedges",
+                category: "wedges",
+                price: 79,
+                description: "Golden potato wedges with garlicky cheese flavor",
+                image: "cheeseygarlicwedges.jpg",
+                base: "Potato Wedges",
+                sauces: ["Cheese Sauce", "Garlic Mayo", "Chili Mayo"],
+                toppings: ["Bacon Bits", "Extra Cheese (+₱10)"]
+            },
+            {
+                id: 2,
+                name: "Cheesy Bacon Wedges",
+                category: "wedges",
+                price: 79,
+                description: "Crispy bacon and creamy cheese on golden wedges",
+                image: "cheeseybaconwedges.jpg",
+                base: "Potato Wedges",
+                sauces: ["Cheese Sauce", "Garlic Mayo", "Chili Mayo"],
+                toppings: ["Bacon Bits", "Extra Cheese (+₱10)"]
+            },
+            {
+                id: 3,
+                name: "Cheesy Bacon Spud",
+                category: "spuds",
+                price: 119,
+                description: "Jacket potato with cheesy bacon filling",
+                image: "cheeseybaconspud.jpg",
+                base: "Classic Baked Potato",
+                sauces: ["Cheese Sauce", "Garlic Mayo", "Chili Mayo"],
+                toppings: ["Bacon Bits", "Extra Cheese (+₱10)", "Butter"]
+            },
+            {
+                id: 4,
+                name: "Cheesy Bacon Spinach Spud",
+                category: "spuds",
+                price: 129,
+                description: "Jacket potato with cheesy bacon and fresh spinach",
+                image: "cheeseybaconspinach.jpg",
+                base: "Classic Baked Potato",
+                sauces: ["Cheese Sauce", "Garlic Mayo", "Chili Mayo"],
+                toppings: ["Bacon Bits", "Creamy Spinach", "Extra Cheese (+₱10)", "Butter"]
+            },
+            {
+                id: 5,
+                name: "Lasagna-Style Spud",
+                category: "spuds",
+                price: 159,
+                description: "Jacket potato with lasagna-style sauce and cheese",
+                image: "lasagnastylespud.jpg",
+                base: "Classic Baked Potato",
+                sauces: ["Cheese Sauce", "Garlic Mayo", "Chili Mayo"],
+                toppings: ["Lasagna-Style Sauce", "Extra Cheese (+₱10)", "Butter"]
+            },
+            {
+                id: 6,
+                name: "Cheese Dip",
+                category: "dips",
+                price: 15,
+                description: "Creamy cheese dip for your potato snacks",
+                image: "cheesedip.jpg",
+                base: "Dip",
+                sauces: [],
+                toppings: []
+            },
+            {
+                id: 7,
+                name: "Garlic Mayo Dip",
+                category: "dips",
+                price: 15,
+                description: "Garlic-infused mayonnaise dip",
+                image: "garlicdip.jpg",
+                base: "Dip",
+                sauces: [],
+                toppings: []
+            },
+            {
+                id: 8,
+                name: "Chili Mayo Dip",
+                category: "dips",
+                price: 15,
+                description: "Spicy chili mayonnaise dip",
+                image: "chilimayodip.jpg",
+                base: "Dip",
+                sauces: [],
+                toppings: []
+            }
+        ];
+
+        // Quiz Data
+        const quizResults = {
+            "Cheesy Bacon Spud": {
+                title: "You're bold and full of energy!",
+                description: "Try our Cheesy Bacon Spud — melty cheese, crispy bacon, and everything you crave.",
+                icon: "🥓🧀",
+                image: "cheeseybaconspud.jpg",
+                price: 119,
+                productId: 3
+            },
+            "Lasagna-Style Spud": {
+                title: "You're all about cozy flavors!",
+                description: "Our Lasagna-Style Spud is your perfect match — saucy, hearty comfort food!",
+                icon: "🍅🥔",
+                image: "lasagnastylespud.jpg",
+                price: 159,
+                productId: 5
+            },
+            "Cheesy Bacon Spinach Spud": {
+                title: "You like a creamy, guilt-free bite!",
+                description: "Go for the Cheesy Bacon Spinach Spud — the perfect balance of creamy, savory, and fresh!",
+                icon: "🥬🧀",
+                image: "cheeseybaconspinach.jpg",
+                price: 129,
+                productId: 4
+            },
+            "Potato Wedges": {
+                title: "You're chill and easygoing!",
+                description: "A serving of crispy Potato Wedges fits you best — simple, delicious, and satisfying!",
+                icon: "😌🍟",
+                image: "potatowedges.jpg",
+                price: 79,
+                productId: 1
+            }
+        };
+
+        // Promo Messages
+        const promoMessages = [
+            "🔥 Get your Spuds fix now — ₱119 only!",
+            "🥔 Buy 2 Potato Wedges, get 1 dip FREE!",
+            "🍅 New Lasagna-Style Spud available now!",
+            "🎓 Student Discount: 10% off with valid ID!"
+        ];
+
+        // Cart Data
+        let cart = JSON.parse(localStorage.getItem('cravePotatoCart')) || [];
+        let currentCustomization = null;
+        let quizAnswers = [];
+        let currentQuizStep = 0;
+        const totalQuizSteps = 5;
+
+        // DOM Elements
+        const promoBanner = document.getElementById('promoBanner');
+        const promoText = document.getElementById('promoText');
+        const closePromo = document.getElementById('closePromo');
+        const notificationBtn = document.getElementById('notificationBtn');
+        const notificationDropdown = document.getElementById('notificationDropdown');
+        const cartBtn = document.getElementById('cartBtn');
+        const cartCount = document.getElementById('cartCount');
+        const cartPanel = document.getElementById('cartPanel');
+        const closeCart = document.getElementById('closeCart');
+        const cartItems = document.getElementById('cartItems');
+        const cartTotal = document.getElementById('cartTotal');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        const menuGrid = document.getElementById('menuGrid');
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const customizationModal = document.getElementById('customizationModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalContent = document.getElementById('modalContent');
+        const modalTotal = document.getElementById('modalTotal');
+        const closeModal = document.getElementById('closeModal');
+        const saveCustomization = document.getElementById('saveCustomization');
+        const orderForm = document.getElementById('orderForm');
+        const orderSummary = document.getElementById('orderSummary');
+        const orderTotal = document.getElementById('orderTotal');
+        const addressField = document.getElementById('addressField');
+        const orderConfirmation = document.getElementById('orderConfirmation');
+        const confirmationMessage = document.getElementById('confirmationMessage');
+        const closeConfirmation = document.getElementById('closeConfirmation');
+        const trackingBar = document.getElementById('trackingBar');
+        const chatbotBtn = document.getElementById('chatbotBtn');
+        const chatbotWindow = document.getElementById('chatbotWindow');
+        const closeChatbot = document.getElementById('closeChatbot');
+        const chatbotMessages = document.getElementById('chatbotMessages');
+        const chatbotInput = document.getElementById('chatbotInput');
+        const sendMessage = document.getElementById('sendMessage');
+        const quickReplies = document.querySelectorAll('.quick-reply');
+        const overlay = document.getElementById('overlay');
+        const reviewForm = document.getElementById('reviewForm');
+        const stars = document.querySelectorAll('#starRating .fa-star');
+        const newsletterForm = document.getElementById('newsletterForm');
+        
+        // Quiz Elements
+        const quizContainer = document.getElementById('quizContainer');
+        const progressBar = document.getElementById('progressBar');
+        const progressText = document.getElementById('progressText');
+        const startQuizBtn = document.querySelector('.start-quiz');
+        const skipQuizBtn = document.querySelector('.skip-quiz');
+        const quizNextBtns = document.querySelectorAll('.quiz-next');
+        const quizPrevBtns = document.querySelectorAll('.quiz-prev');
+        const quizOptions = document.querySelectorAll('.quiz-option');
+        const resultIcon = document.getElementById('resultIcon');
+        const resultTitle = document.getElementById('resultTitle');
+        const resultDescription = document.getElementById('resultDescription');
+        const resultCard = document.getElementById('resultCard');
+        const resultImage = document.getElementById('resultImage');
+        const resultProduct = document.getElementById('resultProduct');
+        const resultDetails = document.getElementById('resultDetails');
+        const resultPrice = document.getElementById('resultPrice');
+        const orderResultBtn = document.getElementById('orderResult');
+        const shareResultBtn = document.getElementById('shareResult');
+        const retakeQuizBtn = document.getElementById('retakeQuiz');
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', function() {
+            renderMenuItems('all');
+            updateCartCount();
+            updateCartDisplay();
+            setupEventListeners();
+            startPromoRotation();
+            checkPreviousQuizResult();
+            
+            // Set minimum date to today
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('orderDate').min = today;
+        });
+		
+		// Always start the quiz fresh when the page loads
+localStorage.removeItem('cravepotato_quiz_result');
+
+        // Check if user has a previous quiz result
+        function checkPreviousQuizResult() {
+            const previousResult = localStorage.getItem('cravepotato_quiz_result');
+            if (previousResult) {
+                const resultData = JSON.parse(previousResult);
+                showQuizResult(resultData.product, false);
+            }
+        }
+
+        // Quiz Functions
+        function startQuiz() {
+            quizAnswers = [];
+            currentQuizStep = 1;
+            updateQuizProgress();
+            showQuizStep('step-1');
+        }
+
+        function showQuizStep(stepId) {
+            // Hide all steps
+            document.querySelectorAll('.quiz-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show the specified step
+            document.getElementById(stepId).classList.add('active');
+            
+            // Update progress
+            updateQuizProgress();
+        }
+
+        function updateQuizProgress() {
+            const progressPercentage = (currentQuizStep / totalQuizSteps) * 100;
+            progressBar.style.width = `${progressPercentage}%`;
+            progressText.textContent = `${currentQuizStep}/${totalQuizSteps}`;
+        }
+
+        function selectQuizOption(option) {
+            // Remove selected class from all options in current step
+            const currentStep = document.querySelector('.quiz-step.active');
+            currentStep.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked option
+            option.classList.add('selected');
+            
+            // Enable next button
+            const nextBtn = currentStep.querySelector('.quiz-next');
+            nextBtn.disabled = false;
+            
+            // Store answer
+            const stepId = currentStep.id;
+            const answerValue = option.getAttribute('data-value');
+            
+            if (stepId === 'step-1') {
+                quizAnswers[0] = answerValue;
+            } else if (stepId === 'step-2') {
+                quizAnswers[1] = answerValue;
+            } else if (stepId === 'step-3') {
+                quizAnswers[2] = answerValue;
+            } else if (stepId === 'step-4') {
+                quizAnswers[3] = answerValue;
+            } else if (stepId === 'step-5') {
+                quizAnswers[4] = answerValue;
+            }
+        }
+
+        function nextQuizStep() {
+            if (currentQuizStep < totalQuizSteps) {
+                currentQuizStep++;
+                showQuizStep(`step-${currentQuizStep}`);
+            } else {
+                calculateQuizResult();
+            }
+        }
+
+        function prevQuizStep() {
+            if (currentQuizStep > 1) {
+                currentQuizStep--;
+                showQuizStep(`step-${currentQuizStep}`);
+            }
+        }
+
+        function calculateQuizResult() {
+            // Simple scoring system based on answer combinations
+            let result = "Cheesy Bacon Spud"; // Default result
+            
+            // Q1: Feeling
+            const feeling = quizAnswers[0];
+            // Q2: Flavor
+            const flavor = quizAnswers[1];
+            // Q3: Hunger
+            const hunger = quizAnswers[2];
+            // Q4: Toppings
+            const toppings = quizAnswers[3];
+            // Q5: Location
+            const location = quizAnswers[4];
+            
+            // Decision logic
+            if (hunger === "snack" || location === "go") {
+                result = "Potato Wedges";
+            } else if (flavor === "saucy" || feeling === "treat") {
+                result = "Lasagna-Style Spud";
+            } else if (flavor === "creamy" || toppings === "maybe") {
+                result = "Cheesy Bacon Spinach Spud";
+            } else if (feeling === "hungry" || toppings === "extra") {
+                result = "Cheesy Bacon Spud";
+            }
+            
+            // Save result to localStorage
+            const resultData = {
+                product: result,
+                timestamp: new Date().toISOString()
+            };
+            localStorage.setItem('cravepotato_quiz_result', JSON.stringify(resultData));
+            
+            // Show result
+            showQuizResult(result, true);
+        }
+
+        function showQuizResult(product, isNewResult) {
+            const result = quizResults[product];
+            
+            if (isNewResult) {
+                showQuizStep('step-result');
+            } else {
+                // If showing a previous result, we need to make the quiz section visible
+                document.querySelector('#quiz').scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('step-welcome').classList.remove('active');
+                document.getElementById('step-result').classList.add('active');
+            }
+            
+            // Update result display
+            resultIcon.textContent = result.icon;
+            resultTitle.textContent = isNewResult ? "Your Perfect Spud Match!" : "Your Previous Spud Match!";
+            resultDescription.textContent = result.description;
+            resultImage.src = result.image;
+            resultProduct.textContent = product;
+            resultDetails.textContent = menuItems.find(item => item.id === result.productId).description;
+            resultPrice.textContent = `₱${result.price}`;
+            
+            // Set up order button
+            orderResultBtn.onclick = function() {
+                openCustomizationModal(result.productId);
+            };
+        }
+
+        function shareQuizResult() {
+            const result = JSON.parse(localStorage.getItem('cravepotato_quiz_result'));
+            if (result) {
+                const shareText = `I got the ${result.product} on the CravePotato quiz! 🥔 Check out which spud is perfect for you: ${window.location.href.split('#')[0]}#quiz`;
+                
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'My CravePotato Quiz Result',
+                        text: shareText,
+                        url: window.location.href.split('#')[0] + '#quiz'
+                    });
+                } else {
+                    // Fallback: copy to clipboard
+                    navigator.clipboard.writeText(shareText).then(() => {
+                        alert('Result copied to clipboard! Share it with your friends.');
+                    });
+                }
+            }
+        }
+
+        function retakeQuiz() {
+            showQuizStep('step-welcome');
+        }
+
+        // Render menu items based on filter
+        function renderMenuItems(category) {
+            menuGrid.innerHTML = '';
+            
+            const filteredItems = category === 'all' 
+                ? menuItems 
+                : menuItems.filter(item => item.category === category);
+            
+            filteredItems.forEach(item => {
+                const productCard = document.createElement('div');
+                productCard.className = 'bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow';
+                productCard.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="w-full h-48 object-cover">
+                    <div class="p-4">
+                        <h3 class="font-nunito text-xl font-bold mb-2">${item.name}</h3>
+                        <p class="text-gray-600 mb-4">${item.description}</p>
+                        <div class="flex justify-between items-center">
+                            <span class="font-bold text-potato-orange text-lg">₱${item.price}</span>
+                            <div class="flex space-x-2">
+                                ${item.category !== 'dips' ? `<button class="customize-btn bg-potato-yellow hover:bg-yellow-500 text-potato-brown py-2 px-4 rounded-lg transition-colors" data-id="${item.id}">
+                                    Customize
+                                </button>` : ''}
+                                <button class="add-to-cart bg-potato-orange hover:bg-orange-600 text-white py-2 px-4 rounded-lg transition-colors" data-id="${item.id}">
+                                    Add to Cart
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                menuGrid.appendChild(productCard);
+            });
+            
+            // Add event listeners to the newly created buttons
+            document.querySelectorAll('.add-to-cart').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    addToCart(id);
+                });
+            });
+            
+            document.querySelectorAll('.customize-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.getAttribute('data-id'));
+                    openCustomizationModal(id);
+                });
+            });
+        }
+
+        // Filter menu items
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active', 'bg-potato-orange', 'text-white'));
+                // Add active class to clicked button
+                this.classList.add('active', 'bg-potato-orange', 'text-white');
+                // Render filtered items
+                const filter = this.getAttribute('data-filter');
+                renderMenuItems(filter);
+            });
+        });
+
+        // Add item to cart
+        function addToCart(id, customization = null) {
+            const item = menuItems.find(item => item.id === id);
+            const existingItemIndex = cart.findIndex(cartItem => 
+                cartItem.id === id && 
+                JSON.stringify(cartItem.customization) === JSON.stringify(customization)
+            );
+            
+            if (existingItemIndex !== -1) {
+                cart[existingItemIndex].quantity += 1;
+            } else {
+                cart.push({
+                    id: item.id,
+                    name: item.name,
+                    price: item.price,
+                    quantity: 1,
+                    customization: customization
+                });
+            }
+            
+            updateCartCount();
+            updateCartDisplay();
+            saveCartToStorage();
+            
+            // Show a quick notification
+            showQuickNotification(`${item.name} added to cart!`);
+        }
+
+        // Update cart count in navbar
+        function updateCartCount() {
+            const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+            cartCount.textContent = totalItems;
+        }
+
+        // Update cart display
+        function updateCartDisplay() {
+            cartItems.innerHTML = '';
+            
+            if (cart.length === 0) {
+                cartItems.innerHTML = '<p class="text-center py-4">Your cart is empty</p>';
+                cartTotal.textContent = '₱0.00';
+                orderTotal.textContent = '₱0.00';
+                checkoutBtn.disabled = true;
+                orderSummary.innerHTML = '<p class="text-center py-4">Your cart is empty</p>';
+                return;
+            }
+            
+            let total = 0;
+            let orderSummaryHTML = '';
+            
+            cart.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                total += itemTotal;
+                
+                // For cart panel
+                const cartItem = document.createElement('div');
+                cartItem.className = 'flex justify-between items-center border-b pb-4 mb-4';
+                cartItem.innerHTML = `
+                    <div class="flex-1">
+                        <h4 class="font-bold">${item.name}</h4>
+                        ${item.customization ? `<p class="text-sm text-gray-600">${formatCustomization(item.customization)}</p>` : ''}
+                        <div class="flex items-center mt-2">
+                            <button class="decrease-quantity text-potato-orange hover:text-orange-600" data-index="${index}">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                            <span class="mx-2">${item.quantity}</span>
+                            <button class="increase-quantity text-potato-orange hover:text-orange-600" data-index="${index}">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p class="font-bold">₱${itemTotal}</p>
+                        <button class="remove-item text-red-500 hover:text-red-700 text-sm mt-1" data-index="${index}">
+                            Remove
+                        </button>
+                    </div>
+                `;
+                cartItems.appendChild(cartItem);
+                
+                // For order summary
+                orderSummaryHTML += `
+                    <div class="flex justify-between border-b pb-2 mb-2">
+                        <div>
+                            <p>${item.name} x ${item.quantity}</p>
+                            ${item.customization ? `<p class="text-sm text-gray-600">${formatCustomization(item.customization)}</p>` : ''}
+                        </div>
+                        <p>₱${itemTotal}</p>
+                    </div>
+                `;
+            });
+            
+            cartTotal.textContent = `₱${total.toFixed(2)}`;
+            orderTotal.textContent = `₱${total.toFixed(2)}`;
+            checkoutBtn.disabled = false;
+            orderSummary.innerHTML = orderSummaryHTML;
+            
+            // Add event listeners to cart item buttons
+            document.querySelectorAll('.decrease-quantity').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    decreaseQuantity(index);
+                });
+            });
+            
+            document.querySelectorAll('.increase-quantity').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    increaseQuantity(index);
+                });
+            });
+            
+            document.querySelectorAll('.remove-item').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    removeFromCart(index);
+                });
+            });
+        }
+
+        // Format customization for display
+        function formatCustomization(customization) {
+            if (!customization) return '';
+            
+            let parts = [];
+            if (customization.base) parts.push(customization.base);
+            if (customization.sauce) parts.push(customization.sauce);
+            if (customization.toppings && customization.toppings.length > 0) {
+                parts.push(...customization.toppings);
+            }
+            
+            return parts.join(', ');
+        }
+
+        // Cart quantity operations
+        function decreaseQuantity(index) {
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1;
+            } else {
+                cart.splice(index, 1);
+            }
+            
+            updateCartCount();
+            updateCartDisplay();
+            saveCartToStorage();
+        }
+
+        function increaseQuantity(index) {
+            cart[index].quantity += 1;
+            updateCartCount();
+            updateCartDisplay();
+            saveCartToStorage();
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCartCount();
+            updateCartDisplay();
+            saveCartToStorage();
+        }
+
+        // Open customization modal
+        function openCustomizationModal(id) {
+            currentCustomization = { id: id, base: null, sauce: null, toppings: [], extraPrice: 0 };
+            const item = menuItems.find(item => item.id === id);
+            
+            modalTitle.textContent = `Customize ${item.name}`;
+            modalTotal.textContent = `₱${item.price}`;
+            
+            let modalHTML = `
+                <div class="mb-6">
+                    <h4 class="font-bold mb-2">Base</h4>
+                    <div class="flex flex-wrap gap-2">
+                        <button class="base-option bg-potato-cream hover:bg-yellow-100 py-2 px-4 rounded-lg transition-colors active" data-base="${item.base}">
+                            ${item.base}
+                        </button>
+                    </div>
+                </div>
+            `;
+            
+            if (item.sauces.length > 0) {
+                modalHTML += `
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">Sauce</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${item.sauces.map(sauce => `
+                                <button class="sauce-option bg-potato-cream hover:bg-yellow-100 py-2 px-4 rounded-lg transition-colors" data-sauce="${sauce}">
+                                    ${sauce}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            if (item.toppings.length > 0) {
+                modalHTML += `
+                    <div class="mb-6">
+                        <h4 class="font-bold mb-2">Toppings</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${item.toppings.map(topping => `
+                                <button class="topping-option bg-potato-cream hover:bg-yellow-100 py-2 px-4 rounded-lg transition-colors" data-topping="${topping}" data-price="${topping.includes('+₱10') ? 10 : 0}">
+                                    ${topping}
+                                </button>
+                            `).join('')}
+                        </div>
+                    </div>
+                `;
+            }
+            
+            modalHTML += `
+                <div class="mb-6">
+                    <h4 class="font-bold mb-2">Quantity</h4>
+                    <div class="flex items-center">
+                        <button id="decreaseQty" class="bg-potato-orange text-white w-8 h-8 rounded-l-lg">-</button>
+                        <span id="modalQty" class="mx-4 font-bold">1</span>
+                        <button id="increaseQty" class="bg-potato-orange text-white w-8 h-8 rounded-r-lg">+</button>
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <h4 class="font-bold mb-2">Special Instructions</h4>
+                    <textarea id="specialInstructions" class="w-full p-3 border border-gray-300 rounded-lg" rows="3" placeholder="Any special requests..."></textarea>
+                </div>
+            `;
+            
+            modalContent.innerHTML = modalHTML;
+            
+            // Set initial base
+            currentCustomization.base = item.base;
+            
+            // Add event listeners to modal elements
+            document.querySelectorAll('.base-option').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.base-option').forEach(b => b.classList.remove('active', 'bg-potato-orange', 'text-white'));
+                    this.classList.add('active', 'bg-potato-orange', 'text-white');
+                    currentCustomization.base = this.getAttribute('data-base');
+                });
+            });
+            
+            document.querySelectorAll('.sauce-option').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.sauce-option').forEach(s => s.classList.remove('active', 'bg-potato-orange', 'text-white'));
+                    this.classList.add('active', 'bg-potato-orange', 'text-white');
+                    currentCustomization.sauce = this.getAttribute('data-sauce');
+                });
+            });
+            
+            document.querySelectorAll('.topping-option').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    this.classList.toggle('active');
+                    this.classList.toggle('bg-potato-orange');
+                    this.classList.toggle('text-white');
+                    
+                    const topping = this.getAttribute('data-topping');
+                    const price = parseInt(this.getAttribute('data-price'));
+                    
+                    if (this.classList.contains('active')) {
+                        currentCustomization.toppings.push(topping);
+                        currentCustomization.extraPrice += price;
+                    } else {
+                        const index = currentCustomization.toppings.indexOf(topping);
+                        if (index !== -1) {
+                            currentCustomization.toppings.splice(index, 1);
+                            currentCustomization.extraPrice -= price;
+                        }
+                    }
+                    
+                    updateModalTotal();
+                });
+            });
+            
+            document.getElementById('decreaseQty').addEventListener('click', function() {
+                const qtyElement = document.getElementById('modalQty');
+                let qty = parseInt(qtyElement.textContent);
+                if (qty > 1) {
+                    qtyElement.textContent = qty - 1;
+                }
+            });
+            
+            document.getElementById('increaseQty').addEventListener('click', function() {
+                const qtyElement = document.getElementById('modalQty');
+                let qty = parseInt(qtyElement.textContent);
+                qtyElement.textContent = qty + 1;
+            });
+            
+            // Show modal
+            customizationModal.classList.remove('hidden');
+            overlay.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+        }
+
+        // Update modal total price
+        function updateModalTotal() {
+            const item = menuItems.find(item => item.id === currentCustomization.id);
+            const qty = parseInt(document.getElementById('modalQty').textContent);
+            const total = (item.price + currentCustomization.extraPrice) * qty;
+            modalTotal.textContent = `₱${total}`;
+        }
+
+        // Save customization to cart
+        saveCustomization.addEventListener('click', function() {
+            const qty = parseInt(document.getElementById('modalQty').textContent);
+            const instructions = document.getElementById('specialInstructions').value;
+            
+            if (instructions) {
+                currentCustomization.instructions = instructions;
+            }
+            
+            // Add item to cart with customization
+            for (let i = 0; i < qty; i++) {
+                addToCart(currentCustomization.id, currentCustomization);
+            }
+            
+            // Close modal
+            customizationModal.classList.add('hidden');
+            overlay.classList.add('hidden');
+            document.body.classList.remove('modal-open');
+        });
+
+        // Handle order form submission
+        orderForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (cart.length === 0) {
+                alert('Your cart is empty. Please add items before placing an order.');
+                return;
+            }
+            
+            const name = document.getElementById('orderName').value;
+            const contact = document.getElementById('orderContact').value;
+            const date = document.getElementById('orderDate').value;
+            const time = document.querySelector('input[name="time"]:checked').value;
+            const delivery = document.querySelector('input[name="delivery"]:checked').value;
+            const address = document.getElementById('orderAddress').value;
+            const notes = document.getElementById('orderNotes').value;
+            
+            if (delivery === 'Delivery' && !address) {
+                alert('Please provide a delivery address.');
+                return;
+            }
+            
+            const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+            const orderId = 'CRV-' + Math.floor(1000 + Math.random() * 9000);
+            
+            // In a real application, you would send this data to a server
+            console.log('Order Details:', {
+                orderId,
+                name,
+                contact,
+                date,
+                time,
+                delivery,
+                address,
+                notes,
+                items: cart,
+                total
+            });
+            
+            // Show confirmation modal
+            confirmationMessage.textContent = `✅ Thank you, ${name}! Your CravePotato pre-order (ID: ${orderId}) has been received. Please prepare ₱${total} for Cash on Delivery.`;
+            orderConfirmation.classList.remove('hidden');
+            overlay.classList.remove('hidden');
+            document.body.classList.add('modal-open');
+            
+            // Start order tracking simulation
+            simulateOrderTracking();
+            
+            // Clear cart and form
+            cart = [];
+            updateCartCount();
+            updateCartDisplay();
+            saveCartToStorage();
+            orderForm.reset();
+            addressField.classList.add('hidden');
+        });
+
+        // Simulate order tracking
+function simulateOrderTracking() {
+    const trackingBar = document.getElementById('trackingBar'); // get it inside the function
+    if (!trackingBar) return; // exit if the element doesn't exist yet
+
+    trackingBar.style.width = '0%';        // start empty
+    trackingBar.style.transition = 'width 0.5s ease'; // smooth animation
+
+    let progress = 0;
+    const interval = setInterval(() => {
+        progress += 33;
+
+        // Clamp progress to 100%
+        if (progress > 100) progress = 100;
+
+        trackingBar.style.width = `${progress}%`;
+
+        if (progress >= 100) {
+            clearInterval(interval);
+        }
+    }, 1000);
+}
+
+        // Chatbot functionality
+        function sendChatbotMessage(message = null) {
+            const input = message || chatbotInput.value.trim();
+            
+            if (!input) return;
+            
+            // Add user message
+            const userMessage = document.createElement('div');
+            userMessage.className = 'chat-message mb-4 flex justify-end';
+            userMessage.innerHTML = `
+                <div class="bg-potato-orange text-white rounded-lg p-3 max-w-[80%]">
+                    <p>${input}</p>
+                </div>
+            `;
+            chatbotMessages.appendChild(userMessage);
+            
+            // Clear input if it came from the input field
+            if (!message) {
+                chatbotInput.value = '';
+            }
+            
+            // Scroll to bottom
+            chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            
+            // Generate bot response after a short delay
+            setTimeout(() => {
+                const botResponse = generateBotResponse(input);
+                const botMessage = document.createElement('div');
+                botMessage.className = 'chat-message mb-4';
+                botMessage.innerHTML = `
+                    <div class="bg-gray-100 rounded-lg p-3 max-w-[80%]">
+                        <p>${botResponse}</p>
+                    </div>
+                `;
+                chatbotMessages.appendChild(botMessage);
+                
+                // Scroll to bottom
+                chatbotMessages.scrollTop = chatbotMessages.scrollHeight;
+            }, 1000);
+        }
+
+        function generateBotResponse(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            if (lowerMessage.includes('quiz') || lowerMessage.includes('recommend') || lowerMessage.includes('what spud') || lowerMessage.includes('which spud')) {
+                return `Let's find out which CravePotato spud suits you best! 🥔💛 Click below to start your quiz 👇
+                
+                <div class="mt-3">
+                    <button class="quick-reply bg-potato-yellow hover:bg-yellow-500 text-potato-brown text-sm py-2 px-4 rounded-full transition-colors w-full" data-message="Take the Quiz">
+                        🎯 Take the Quiz
+                    </button>
+                </div>`;
+            } else if (lowerMessage.includes('menu') || lowerMessage.includes('price') || lowerMessage.includes('how much')) {
+                return `Here's our menu with prices 🥔:
+                
+🍟 Potato Wedges - ₱79
+• Cheesy Garlic Wedges
+• Cheesy Bacon Wedges
+
+🥔 Spuds (Jacket Potatoes) - ₱119-₱159
+• Cheesy Bacon Spud - ₱119
+• Cheesy Bacon Spinach Spud - ₱129
+• Lasagna-Style Spud - ₱159
+
+🧂 Dips - ₱15 each
+• Cheese Dip
+• Garlic Mayo Dip
+• Chili Mayo Dip
+
+Would you like to customize any of these items?`;
+            } else if (lowerMessage.includes('customize') || lowerMessage.includes('topping')) {
+                return `You can customize your Spud or Wedges with:
+
+🥔 Base Options:
+• Classic Baked Potato
+• Potato Wedges
+
+🧂 Sauces:
+• Cheese Sauce
+• Garlic Mayo
+• Chili Mayo
+
+🧀 Toppings:
+• Bacon Bits
+• Creamy Spinach
+• Lasagna-Style Sauce
+• Butter
+• Extra Cheese (+₱10)
+
+Click "Customize" on any menu item to build your perfect potato!`;
+            } else if (lowerMessage.includes('pre-order') || lowerMessage.includes('order') || lowerMessage.includes('how to order')) {
+                return `To place a pre-order:
+
+1. Browse our menu and add items to your cart
+2. Customize your items if desired
+3. Proceed to checkout
+4. Fill out your details and preferred pickup/delivery time
+5. Submit your order
+
+We only accept Cash on Delivery (COD). Your order will be prepared fresh and ready at your chosen time!`;
+            } else if (lowerMessage.includes('delivery') || lowerMessage.includes('pickup')) {
+                return `We offer both pickup and delivery options:
+
+🏠 Pickup: 
+• Free at our Student Entrepreneur Hub location
+• Ready at your chosen time
+
+🚚 Delivery:
+• Available within university area
+• Small delivery fee may apply
+• Minimum order of ₱200 for delivery
+
+Select your preferred option during checkout!`;
+            } else if (lowerMessage.includes('faq') || lowerMessage.includes('question')) {
+                return `Frequently Asked Questions:
+
+❓ How long does preparation take?
+• Usually 15-20 minutes after order confirmation
+
+❓ Do you offer student discounts?
+• Yes! 10% off with valid student ID
+
+❓ What are your operating hours?
+• We operate during student-friendly hours: 10AM-8PM
+
+❓ Can I modify my order after placing it?
+• Please contact us ASAP if you need to modify your order
+
+Have another question? Just ask!`;
+            } else {
+                return "I'm here to help with all things CravePotato 🥔💛! Ask me about our menu, customization, or how to order.";
+            }
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Promo banner
+            closePromo.addEventListener('click', function() {
+                promoBanner.style.display = 'none';
+            });
+            
+            // Notification dropdown
+            notificationBtn.addEventListener('click', function() {
+                notificationDropdown.classList.toggle('hidden');
+            });
+            
+            // Cart panel
+            cartBtn.addEventListener('click', function() {
+                cartPanel.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                document.body.classList.add('modal-open');
+            });
+            
+            closeCart.addEventListener('click', function() {
+                cartPanel.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+                document.body.classList.remove('modal-open');
+            });
+            
+            // Mobile menu
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Modal close buttons
+            closeModal.addEventListener('click', function() {
+                customizationModal.classList.add('hidden');
+                overlay.classList.add('hidden');
+                document.body.classList.remove('modal-open');
+            });
+            
+            closeConfirmation.addEventListener('click', function() {
+                orderConfirmation.classList.add('hidden');
+                overlay.classList.add('hidden');
+                document.body.classList.remove('modal-open');
+            });
+            
+            // Delivery option toggle
+            document.querySelectorAll('input[name="delivery"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'Delivery') {
+                        addressField.classList.remove('hidden');
+                    } else {
+                        addressField.classList.add('hidden');
+                    }
+                });
+            });
+            
+            // Chatbot
+            chatbotBtn.addEventListener('click', function() {
+                chatbotWindow.classList.toggle('hidden');
+            });
+            
+            closeChatbot.addEventListener('click', function() {
+                chatbotWindow.classList.add('hidden');
+            });
+            
+            sendMessage.addEventListener('click', function() {
+                sendChatbotMessage();
+            });
+            
+            chatbotInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendChatbotMessage();
+                }
+            });
+            
+            quickReplies.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const message = this.getAttribute('data-message');
+                    if (message === "Take the Quiz") {
+                        // Navigate to quiz section
+                        document.querySelector('#quiz').scrollIntoView({ behavior: 'smooth' });
+                        chatbotWindow.classList.add('hidden');
+                        startQuiz();
+                    } else {
+                        sendChatbotMessage(message);
+                    }
+                });
+            });
+            
+            // Quiz event listeners
+            startQuizBtn.addEventListener('click', startQuiz);
+            skipQuizBtn.addEventListener('click', function() {
+                document.querySelector('#menu').scrollIntoView({ behavior: 'smooth' });
+            });
+            
+            quizNextBtns.forEach(btn => {
+                btn.addEventListener('click', nextQuizStep);
+            });
+            
+            quizPrevBtns.forEach(btn => {
+                btn.addEventListener('click', prevQuizStep);
+            });
+            
+            quizOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    selectQuizOption(this);
+                });
+            });
+            
+            shareResultBtn.addEventListener('click', shareQuizResult);
+            retakeQuizBtn.addEventListener('click', retakeQuiz);
+            
+            // Review form
+            reviewForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('reviewName').value;
+                const text = document.getElementById('reviewText').value;
+                
+                if (selectedRating === 0) {
+                    alert('Please select a rating');
+                    return;
+                }
+                
+                // In a real application, you would send this data to a server
+                console.log('Review Details:', {
+                    name,
+                    text,
+                    rating: selectedRating
+                });
+                
+                // Show success message
+                alert('Thank you for your review!');
+                
+                // Reset form
+                reviewForm.reset();
+                stars.forEach(star => {
+                    star.classList.remove('fas', 'text-potato-yellow');
+                    star.classList.add('far', 'text-gray-300');
+                });
+                selectedRating = 0;
+            });
+            
+            // Star rating
+            let selectedRating = 0;
+            stars.forEach(star => {
+                star.addEventListener('click', function() {
+                    const rating = parseInt(this.getAttribute('data-rating'));
+                    selectedRating = rating;
+                    
+                    stars.forEach(s => {
+                        if (parseInt(s.getAttribute('data-rating')) <= rating) {
+                            s.classList.remove('far', 'text-gray-300');
+                            s.classList.add('fas', 'text-potato-yellow');
+                        } else {
+                            s.classList.remove('fas', 'text-potato-yellow');
+                            s.classList.add('far', 'text-gray-300');
+                        }
+                    });
+                });
+            });
+            
+            // Newsletter form
+            newsletterForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = this.querySelector('input[type="email"]').value;
+                
+                // In a real application, you would send this data to a server
+                console.log('Newsletter Signup:', email);
+                
+                // Show success message
+                alert('Thank you for subscribing to our newsletter!');
+                
+                // Reset form
+                this.reset();
+            });
+            
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!notificationBtn.contains(e.target) && !notificationDropdown.contains(e.target)) {
+                    notificationDropdown.classList.add('hidden');
+                }
+                
+                if (!chatbotBtn.contains(e.target) && !chatbotWindow.contains(e.target)) {
+                    chatbotWindow.classList.add('hidden');
+                }
+            });
+            
+            // Smooth scrolling for navigation links
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    if (targetId === '#') return;
+                    
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        // Close mobile menu if open
+                        mobileMenu.classList.add('hidden');
+                        
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Start promo message rotation
+        function startPromoRotation() {
+            let currentIndex = 0;
+            
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % promoMessages.length;
+                promoText.textContent = promoMessages[currentIndex];
+            }, 5000);
+        }
+
+        // Show quick notification
+        function showQuickNotification(message) {
+            // Create a temporary notification element
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-20 right-4 bg-potato-orange text-white p-4 rounded-lg shadow-lg z-50';
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transition = 'opacity 0.3s';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Save cart to localStorage
+        function saveCartToStorage() {
+            localStorage.setItem('cravePotatoCart', JSON.stringify(cart));
+        }
+		
+		document.getElementById('checkoutBtn').addEventListener('click', () => {
+  const cartItems = JSON.parse(localStorage.getItem('cravePotatoCart')) || [];
+  
+  if (cartItems.length === 0) {
+    alert('🥔 Your cart is empty! Add something delicious first.');
+    return;
+  }
+
+  // Notify user to go to Order Now section
+  alert('➡️ Please proceed to the "Order Now" section to complete your order.');
+
+  // Optional: Open order confirmation modal (can remove if you want)
+  const orderModal = document.getElementById('orderConfirmation');
+  if (orderModal) {
+    orderModal.classList.remove('hidden');
+  }
+});
+    </script>
+</body>
+</html>
